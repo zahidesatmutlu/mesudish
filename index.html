@@ -1,21 +1,425 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>❤️</title>
-  <style>
-    body {
-      background: #ff99aa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-size: 100px;
-      margin: 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sena'm ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffc4e1 50%, #ff9cc7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .stage {
+            display: none;
+            animation: slideIn 0.6s ease;
+        }
+
+        .stage.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Aşama 1 - Başlangıç */
+        .welcome {
+            text-align: center;
+        }
+
+        .welcome h1 {
+            font-size: 60px;
+            color: #ff6b9d;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .welcome p {
+            font-size: 22px;
+            color: #c44569;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .big-heart {
+            font-size: 80px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            filter: drop-shadow(0 5px 15px rgba(255, 107, 157, 0.4));
+        }
+
+        .big-heart:hover {
+            transform: scale(1.2);
+        }
+
+        .big-heart:active {
+            transform: scale(0.9);
+        }
+
+        /* Chat Box */
+        .chat-box {
+            background: white;
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.3);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .chat-message {
+            font-size: 20px;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .chat-message.delay1 { animation-delay: 0.5s; }
+        .chat-message.delay2 { animation-delay: 1s; }
+        .chat-message.delay3 { animation-delay: 1.5s; }
+
+        .emoji-big {
+            font-size: 50px;
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #ff6b9d, #ff9cc7);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 2s forwards;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6);
+        }
+
+        .continue-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Final */
+        .final-message {
+            text-align: center;
+        }
+
+        .final-message h2 {
+            font-size: 36px;
+            color: #ff6b9d;
+            margin-bottom: 30px;
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .final-message p {
+            font-size: 20px;
+            color: #c44569;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .hearts-burst {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .burst-heart {
+            position: absolute;
+            font-size: 30px;
+            animation: burst 1.5s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        .floating-particles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 25px;
+            opacity: 0.7;
+            animation: fallDown 4s linear infinite;
+        }
+
+        @keyframes fallDown {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .thought-bubble {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.2);
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .thought-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 30px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .thought-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 20px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .long-text {
+            font-size: 19px;
+            line-height: 1.9;
+        }
+    </style>
 </head>
 <body>
-  ❤️
+    <div class="floating-particles" id="particles"></div>
+    <div class="hearts-burst" id="heartsBurst"></div>
+
+    <div class="container">
+        <!-- Aşama 1 -->
+        <div class="stage active" id="stage1">
+            <div class="welcome">
+                <h1>Sena'm</h1>
+                <p>Sana söylemek istediğim<br>bazı şeyler var.</p>
+                <div class="big-heart" onclick="nextStage(2)">💗</div>
+                <p style="font-size: 16px; margin-top: 20px; color: #ff9cc7;">Kalbe dokun</p>
+            </div>
+        </div>
+
+        <!-- Aşama 2 -->
+        <div class="stage" id="stage2">
+            <div class="chat-box">
+                <div>
+                    <div class="chat-message">Hisleri söylemek zor, ama yazmak daha kolay.</div>
+                    <div class="chat-message delay1">Bunları sana böyle anlatmak istedim.</div>
+                    <div class="emoji-big">💕</div>
+                </div>
+                <button class="continue-btn" onclick="nextStage(3)">Devam et</button>
+            </div>
+        </div>
+
+        <!-- Aşama 3 -->
+        <div class="stage" id="stage3">
+            <div class="chat-box">
+                <div>
+                    <div class="chat-message long-text">Seni gördüğüm an hissettiğim şeyi sormuştun. O an tarif edemedim ama sanırım buldum. Bazı anlar vardır, zamanı durdurmaz ama içine yerleşir. Göz göze geldiğin anda elin ayağın boşalır… Sadece 6 aydır tanıdığım ama sanki yıllardır bildiğim biriyle karşılaşmak gibi. Kalbin o anda 'işte bu' der, aklın henüz nedenini bilmez ama kalbin çoktan kararını vermiştir. Henüz yaşanmamış bir hayatın başında hissedersin kendini. Ve ne olursa olsun, o anın sana iyi geldiğini bilirsin.</div>
+                    <div class="emoji-big">💗</div>
+                </div>
+                <button class="continue-btn" onclick="nextStage(4)">Devam et</button>
+            </div>
+        </div>
+
+        <!-- Aşama 4 -->
+        <div class="stage" id="stage4">
+            <div class="chat-box">
+                <div>
+                    <div class="chat-message">Seninle vakit geçirmek benim için dünyanın en güzel şeyi.</div>
+                    <div class="chat-message delay1">Öyle ki, sadece oturup saatlerce seni izlemek bile bana yetiyor.</div>
+                    <div class="emoji-big">✨</div>
+                </div>
+                <button class="continue-btn" onclick="nextStage(5)">💖</button>
+            </div>
+        </div>
+
+        <!-- Aşama 5 -->
+        <div class="stage" id="stage5">
+            <div class="thought-bubble">
+                <div class="chat-message" style="margin: 0;">Bazen düşünüyorum...</div>
+            </div>
+            <div class="thought-bubble" style="animation-delay: 1s;">
+                <div class="chat-message delay1" style="margin: 0;">Nasıl bu kadar şanslı olabilirim?</div>
+            </div>
+            <div class="thought-bubble" style="animation-delay: 2s;">
+                <div class="chat-message delay2" style="margin: 0;">Senin gibi biri benim hayatıma nasıl girdi?</div>
+            </div>
+            <button class="continue-btn" onclick="nextStage(6)" style="animation-delay: 3.5s;">Cevabı bilmiyorum...</button>
+        </div>
+
+        <!-- Aşama 6 -->
+        <div class="stage" id="stage6">
+            <div class="chat-box">
+                <div>
+                    <div class="chat-message">Keşke kendini dışarıdan bir kez olsun görebilsen.</div>
+                    <div class="chat-message delay1">Belki o zaman bir sanat eseri olduğundan habersiz duruşunu seyredebilirdin.</div>
+                    <div class="chat-message delay2">Sen benim kıymetlim, her şeyimsin.</div>
+                </div>
+                <button class="continue-btn" onclick="nextStage(7)">Sana söylemek istediğim...</button>
+            </div>
+        </div>
+
+        <!-- Aşama 7: Final -->
+        <div class="stage" id="stage7">
+            <div class="final-message">
+                <h2>Seni çok seviyorum Sena'm 💕</h2>
+                <p>Seninle bütün anılarımızı, gülüşlerimizi, birlikte kurduğumuz hayalleri kalbimin en güzel yerinde taşıyorum.</p>
+                <p>İnşallah ömrümüzün devamında bütün güzel anıları, deneyimleri, ilkleri beraber yaşayıp biriktirmeye devam ederiz.</p>
+                <div class="emoji-big">❤️</div>
+                <p style="font-size: 22px; margin-top: 30px; font-weight: 600;">İyi ki varsın...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStage = 1;
+
+        function nextStage(stage) {
+            document.getElementById('stage' + currentStage).classList.remove('active');
+            currentStage = stage;
+            document.getElementById('stage' + stage).classList.add('active');
+            
+            if (stage === 7) {
+                setTimeout(createHeartsBurst, 500);
+            }
+        }
+
+        function createHeartsBurst() {
+            const burst = document.getElementById('heartsBurst');
+            const hearts = ['💕', '💗', '💖', '💝', '❤️', '💓'];
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'burst-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = '50%';
+                heart.style.top = '50%';
+                
+                const angle = (Math.PI * 2 * i) / 20;
+                const distance = 200;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                heart.style.setProperty('--tx', tx + 'px');
+                heart.style.setProperty('--ty', ty + 'px');
+                
+                burst.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 1500);
+            }
+        }
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const emojis = ['💕', '💗', '💖', '🌸', '💝'];
+            particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.opacity = '0';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            particle.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.getElementById('particles').appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 5000);
+        }
+
+        setInterval(createParticle, 300);
+        
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createParticle, i * 200);
+        }
+    </script>
 </body>
 </html>
